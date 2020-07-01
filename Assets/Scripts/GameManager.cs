@@ -6,9 +6,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [Header("Player1 and Player2")]
-    [SerializeField] GameObject playerOne;
-    [SerializeField] GameObject playerTwo;
+    [SerializeField] GameObject playerOnePrefab;
+    [SerializeField] GameObject playerTwoPrefab;
     [SerializeField] float playerPosition = 0.1f;
+    [SerializeField] float timeToMove = 5f;
+
     [Header("Active player")]
     [SerializeField] bool playerOneActive;
     [SerializeField] bool playerTwoActive;
@@ -25,6 +27,11 @@ public class GameManager : MonoBehaviour
     private int randomCellPlayerTwo;
     private Vector3 positionPlayerOne;
     private Vector3 positionPlayerTwo;
+    private GameObject playerOne;
+    private GameObject playerTwo;
+
+    private Cell[] cells;
+
 
     private void Awake()
     {
@@ -33,6 +40,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cells = FindObjectsOfType<Cell>();
         GeneratePosition();
 
         StartCoroutine(GamePlay());
@@ -51,7 +59,7 @@ public class GameManager : MonoBehaviour
     {
         
         
-        if (playerOne != null && playerTwo != null)
+        if (playerOnePrefab != null && playerTwoPrefab != null)
         {
             randomCellPlayerOne = Random.Range(0, cellsPlayerOne.Length);
             randomCellPlayerTwo = Random.Range(0, cellsPlayerTwo.Length);
@@ -67,8 +75,8 @@ public class GameManager : MonoBehaviour
                 positionPlayerOne = cellsPlayerOne[randomCellPlayerOne].transform.position - new Vector3(0, playerPosition, 0);
                 positionPlayerTwo = cellsPlayerTwo[randomCellPlayerTwo].transform.position - new Vector3(0, playerPosition, 0);
 
-                Instantiate(playerOne, positionPlayerOne, Quaternion.identity);
-                Instantiate(playerTwo, positionPlayerTwo, Quaternion.identity);
+                playerOne = Instantiate(playerOnePrefab, positionPlayerOne, Quaternion.identity);
+                playerTwo = Instantiate(playerTwoPrefab, positionPlayerTwo, Quaternion.identity);
 
 
                 //cellsPlayerOne[randomCellPlayerOne].SetActive(false);//TODO delete
@@ -162,15 +170,29 @@ public class GameManager : MonoBehaviour
         }*/
     }
 
+    private void ShellingPhase()
+    {
+        for (int i = 0; i < cells.Length; i++)
+        {
+            if (cells[i] != null)
+            {
+                cells[i].InactiveCollider();
+            }
+        }
+    }
+
+
     IEnumerator GamePlay()
     {
         while (true)
         {
             ActivePlayerOne();
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(timeToMove);
 
             ActivePlayerTwo();
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(timeToMove);
+
+            ShellingPhase();
         }
     }
 }
