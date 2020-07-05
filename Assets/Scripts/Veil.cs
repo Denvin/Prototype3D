@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cell : MonoBehaviour
+public class Veil : MonoBehaviour
 {
     Collider collider;
 
@@ -20,13 +20,9 @@ public class Cell : MonoBehaviour
     {
         collider.enabled = true;
     }
-
-
-
-
     private void OnMouseDown()
     {
-        GameManager.Instance.DamagePosition(gameObject);
+        Destroy(gameObject);
     }
     private void OnMouseEnter()
     {
@@ -34,6 +30,6 @@ public class Cell : MonoBehaviour
     }
     private void OnMouseExit()
     {
-        
+
     }
 }
