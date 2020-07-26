@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3325227046667402868}
+  - component: {fileID: 3294805163988166617}
   - component: {fileID: 3340563741919236886}
   - component: {fileID: 3349447822966469032}
   - component: {fileID: 3373108931959034454}
@@ -28,11 +29,29 @@ Transform:
   m_GameObject: {fileID: 3326450863302988978}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 1, z: 0.9}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3294805163988166617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3326450863302988978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e794bec2d9511144e9f3858fad48d8bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  maxHealth: 10
+  damage: 10
+  bullets: 1
+  resources: 0
+  maxScoutingPoints: 1
 --- !u!33 &3340563741919236886
 MeshFilter:
   m_ObjectHideFlags: 0

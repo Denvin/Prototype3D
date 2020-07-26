@@ -27,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6790506315860157701}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 1, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -46,6 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f9fb03949907649b18173eeb295c98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materialMain: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  materialMouseEnter: {fileID: 2100000, guid: d27999e08bdbf6e4baf8e56eff425fc7, type: 2}
+  explosionFX: {fileID: 787068352102311367, guid: d31328048c980c74ba15832ee2021909,
+    type: 3}
+  explosionTime: 1
+  fireSound: {fileID: 8300000, guid: 7575f4814720b4b509b55764405171f1, type: 3}
 --- !u!33 &6795477437415744071
 MeshFilter:
   m_ObjectHideFlags: 0
