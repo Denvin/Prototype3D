@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] float playerPosition = 0.1f;
     [SerializeField] float timeToMove = 5f;
-    [SerializeField] int damage = 20; //урон наносится одинаковый. В будущем, возможно, можно сделать что и наносимый урон можно прокачивать
     [SerializeField] int bonusHealth;
 
 
@@ -153,25 +152,14 @@ public class GameManager : MonoBehaviour
         {
             if (target == positionPlayerTwo)
             {
-                Debug.Log("Попадание в игрока 2");
                 playerTwo.DoDamage();
-            }
-            else
-            {
-                Debug.Log("Мимо!");
             }
         }
         else if (playerTwoActive)
         {
             if (target == positionPlayerOne)
             {
-                Debug.Log("Попадание в игрока 1");
                 playerOne.DoDamage();
-
-            }
-            else
-            {
-                Debug.Log("Мимо!");
             }
         }
 
@@ -410,7 +398,6 @@ public class GameManager : MonoBehaviour
 
     public void NextPhase()
     {
-        Debug.Log("NEXT PHASE!!!");
         isClickNextPhase = true;
     }
 
