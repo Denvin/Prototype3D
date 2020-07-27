@@ -6,13 +6,15 @@ public class Player : MonoBehaviour
 {
     public Action onScoutingPoint = delegate { };
     public Action onBulletChanged = delegate { };
-    public Action onHealthChanged = delegate { };
+    public Action onCastleChanged = delegate { };
+    public Action onBuildingPoint = delegate { };
     public Action onLose = delegate { };
 
-    [SerializeField] int health;
-    [SerializeField] int maxHealth;
+    [SerializeField] int castles;
+    [SerializeField] int maxCastles;
     [SerializeField] int damage = 10;
-    [SerializeField] int bullets = 5;
+    [SerializeField] int bullets = 1;
+    [SerializeField] int buildingPoints = 0;
     [SerializeField] int resources;
     [SerializeField] int maxScoutingPoints = 0;
 
@@ -22,18 +24,25 @@ public class Player : MonoBehaviour
     private bool detection = false;
 
 
-    public int Health
+    public int Castles
     {
         get
         {
-            return health;
+            return castles;
         }
     }
-    public int MaxHealth
+    public int MaxCastles
     {
         get
         {
-            return maxHealth;
+            return maxCastles;
+        }
+    }
+    public int BuildingPoints
+    {
+        get
+        {
+            return buildingPoints;
         }
     }
     public int Damage
@@ -89,34 +98,42 @@ public class Player : MonoBehaviour
         onBulletChanged();
     }
 
-    public void AddHealth()
+    public void AddBuildingPoints()
     {
-        if (!detection)
+        buildingPoints++;
+        onBuildingPoint();
+    }
+
+    public void ZeroBuildingPoints()
+    {
+        buildingPoints = 0;
+        onBuildingPoint();
+    }
+    public void AddCastle()
+    {
+        if (castles == maxCastles)
         {
-            if (health == maxHealth)
-            {
-                maxHealth += GameManager.Instance.BonusHealth;
-                health = maxHealth;
-            }
-            else if (health < maxHealth)
-            {
-                health += GameManager.Instance.BonusHealth;
-            }
+            maxCastles++;
+            castles = maxCastles;
         }
-        onHealthChanged();
+        else if (castles < maxCastles)
+        {
+            castles++;
+        }
+        onCastleChanged();
         
         //health += GameManager.Instance.BonusHealth;
     }
     public void DoDamage()
     {
-        health -= damage;
-        if (health <= 0)
+        castles --;
+        if (castles <= 0)
         {
-            Debug.Log("Player 1 destroyed");
+            Debug.Log("Castle destroyed");
             Death();
-            Destroy(gameObject, 1f);
+            //Destroy(gameObject, 1f);
         }
-        onHealthChanged();
+        onCastleChanged();
     }
     public void Death()
     {

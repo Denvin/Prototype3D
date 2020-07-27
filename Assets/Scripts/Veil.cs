@@ -12,23 +12,27 @@ public class Veil : MonoBehaviour
     [SerializeField] float smokeTime;
     [SerializeField] AudioClip openSound;
 
-    MeshRenderer renderer;
-    Collider collider;
+    MeshRenderer rendererVeil;
+    Collider colliderVeil;
 
 
+    private void Awake()
+    {
+        colliderVeil = GetComponent<Collider>();
+        rendererVeil = GetComponent<MeshRenderer>();
+        
+    }
     private void Start()
     {
-        renderer = GetComponent<MeshRenderer>();
-        collider = GetComponent<Collider>();
     }
 
     public void InactiveCollider()
     {
-        collider.enabled = false;
+        colliderVeil.enabled = false;
     }
     public void ActiveCollider()
     {
-        collider.enabled = true;
+        colliderVeil.enabled = true;
     }
 
 
@@ -48,7 +52,7 @@ public class Veil : MonoBehaviour
         {
             return;
         }
-        renderer.material = materialMouseEnter;
+        rendererVeil.material = materialMouseEnter;
     }
     private void OnMouseExit()
     {
@@ -56,7 +60,7 @@ public class Veil : MonoBehaviour
         {
             return;
         }
-        renderer.material = materialMain;
+        rendererVeil.material = materialMain;
     }
 
     IEnumerator ScoutingCoroutine()

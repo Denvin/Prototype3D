@@ -61,11 +61,11 @@ public class UIManager : MonoBehaviour
         StartHealth();
         playerOne.onScoutingPoint += ShowScoutingPlayerOne;
         playerOne.onBulletChanged += ShowBulletPLayerOne;
-        playerOne.onHealthChanged += SliderPlayerOne;
+        playerOne.onCastleChanged += SliderPlayerOne;
 
         playerTwo.onScoutingPoint += ShowScoutingPlayerTwo;
         playerTwo.onBulletChanged += ShowBulletPlayerTwo;
-        playerTwo.onHealthChanged += SliderPlayerTwo;
+        playerTwo.onCastleChanged += SliderPlayerTwo;
 
         ShowBulletPLayerOne();
         ShowBulletPlayerTwo();
@@ -73,13 +73,13 @@ public class UIManager : MonoBehaviour
 
     private void StartHealth()
     {
-        healthPlayerOne.maxValue = playerOne.MaxHealth;
-        healthPlayerOne.value = playerOne.Health;
-        hpInfoPlayerOne.text = $"{playerOne.Health}/{playerOne.MaxHealth}";
+        healthPlayerOne.maxValue = playerOne.MaxCastles;
+        healthPlayerOne.value = playerOne.Castles;
+        hpInfoPlayerOne.text = $"{playerOne.Castles}/{playerOne.MaxCastles}";
 
-        healthPlayerTwo.maxValue = playerTwo.MaxHealth;
-        healthPlayerTwo.value = playerTwo.Health;
-        hpInfoPlayerTwo.text = $"{playerTwo.Health}/{playerTwo.MaxHealth}";
+        healthPlayerTwo.maxValue = playerTwo.MaxCastles;
+        healthPlayerTwo.value = playerTwo.Castles;
+        hpInfoPlayerTwo.text = $"{playerTwo.Castles}/{playerTwo.MaxCastles}";
     }
 
     public void ShowPanelPlayerOne()
@@ -132,14 +132,14 @@ public class UIManager : MonoBehaviour
 
     private void SliderPlayerOne()
     {
-        healthPlayerOne.maxValue = playerOne.MaxHealth;
-        healthPlayerOne.value = playerOne.Health;
-        hpInfoPlayerOne.text = $"{playerOne.Health}/{playerOne.MaxHealth}";
+        healthPlayerOne.maxValue = playerOne.MaxCastles;
+        healthPlayerOne.value = playerOne.Castles;
+        hpInfoPlayerOne.text = $"{playerOne.Castles}/{playerOne.MaxCastles}";
     }
     private void SliderPlayerTwo()
     {
-        healthPlayerTwo.maxValue = playerTwo.MaxHealth;
-        healthPlayerTwo.value = playerTwo.Health;
-        hpInfoPlayerTwo.text = $"{playerTwo.Health}/{playerTwo.MaxHealth}";
+        healthPlayerTwo.maxValue = playerTwo.MaxCastles;
+        healthPlayerTwo.value = playerTwo.Castles;
+        hpInfoPlayerTwo.text = $"{playerTwo.Castles}/{playerTwo.MaxCastles}";
     }
 }

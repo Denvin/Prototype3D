@@ -10,27 +10,28 @@ public class Cell : MonoBehaviour
 
     [Header("Effects")]
     [SerializeField] GameObject explosionFX;
+    [SerializeField] GameObject buildFX;
     [SerializeField] float explosionTime = 1f;
     [SerializeField] AudioClip fireSound;
 
-    MeshRenderer renderer;
-    Collider collider;
+    MeshRenderer rendererCell;
+    Collider colliderCell;
 
 
 
-    private void Start()
+    private void Awake()
     {
-        renderer = GetComponent<MeshRenderer>();
-        collider = GetComponent<Collider>();
+        rendererCell = GetComponent<MeshRenderer>();
+        colliderCell = GetComponent<Collider>();
     }
 
     public void InactiveCollider()
     {
-        collider.enabled = false;
+        colliderCell.enabled = false;
     }
     public void ActiveCollider()
     {
-        collider.enabled = true;
+        colliderCell.enabled = true;
     }
 
 
@@ -42,7 +43,14 @@ public class Cell : MonoBehaviour
         {
             return;
         }
-        if (GameManager.Instance.CheckBulletPlayers())
+        if (GameManager.Instance.CheckBuildPhase())
+        {
+            //GameManager.Instance.BuildCastle(transform.position);
+            //GameManager.Instance.NextPhase();
+            //TODO корутина с эффектом строительства
+            StartCoroutine(BuildCoroutine());
+        }
+        else if (GameManager.Instance.CheckBulletPlayers())
         {
             if (explosionFX != null)
             {
@@ -56,7 +64,7 @@ public class Cell : MonoBehaviour
         {
             return;
         }
-        renderer.material = materialMouseEnter;
+        rendererCell.material = materialMouseEnter;
     }
     private void OnMouseExit()
     {
@@ -64,12 +72,12 @@ public class Cell : MonoBehaviour
         {
             return;
         }
-        renderer.material = materialMain;
+        rendererCell.material = materialMain;
     }
-    //private void OnEnable()
-    //{
-    //    renderer.material = materialMain;
-    //}
+    private void OnEnable()
+    {
+        rendererCell.material = materialMain;
+    }
 
     IEnumerator ExplosionCoroutine()
     {
@@ -77,6 +85,17 @@ public class Cell : MonoBehaviour
         GameObject newObject = Instantiate(explosionFX, transform.position, Quaternion.identity);
         AudioManager.Instance.PlaySound(fireSound);
 
+        yield return new WaitForSeconds(explosionTime);
+
+        GameManager.Instance.NextPhase();
+        Destroy(newObject);
+    }
+    IEnumerator BuildCoroutine()
+    {
+        GameObject newObject = Instantiate(buildFX, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(explosionTime);
+
+        GameManager.Instance.BuildCastle(transform.position);
         yield return new WaitForSeconds(explosionTime);
 
         GameManager.Instance.NextPhase();
