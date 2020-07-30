@@ -46,13 +46,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f9fb03949907649b18173eeb295c98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockRay: {fileID: 2433563545073459814, guid: eb8847bf3d3375e46bb84e30c08bfbc9,
+    type: 3}
   materialMain: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
   materialMouseEnter: {fileID: 2100000, guid: d27999e08bdbf6e4baf8e56eff425fc7, type: 2}
+  materialPlayerOne: {fileID: 2100000, guid: 0576099430b879649b88b8fd65b4b986, type: 2}
+  materialPlayerTwo: {fileID: 2100000, guid: 48d79904f6593c142b8f54e1b8e4dd0d, type: 2}
   explosionFX: {fileID: 787068352102311367, guid: d31328048c980c74ba15832ee2021909,
     type: 3}
   buildFX: {fileID: 1510822340637456739, guid: a59dfdf62cddb9d498e35a2d3f7a7962, type: 3}
   explosionTime: 2
   fireSound: {fileID: 8300000, guid: 7575f4814720b4b509b55764405171f1, type: 3}
+  buildSound: {fileID: 8300000, guid: e0be288ae8b66394d8b46dfa67445d46, type: 3}
+  cursoreBuild: {fileID: 2800000, guid: 825217937f322d7478e479dbe4637748, type: 3}
+  cursoreScouting: {fileID: 2800000, guid: 01b741f16dda06c4fbe68d6251587847, type: 3}
+  cursoreFire: {fileID: 2800000, guid: 25180e46342b2214a9d68d0f0ce01ca5, type: 3}
+  cursorMode: 0
+  hotSpot: {x: 0, y: 0}
 --- !u!33 &6795477437415744071
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -12,6 +12,12 @@ public class Veil : MonoBehaviour
     [SerializeField] float smokeTime;
     [SerializeField] AudioClip openSound;
 
+    [Header("Cursor")]
+
+    [SerializeField] Texture2D cursoreScouting;
+    [SerializeField] CursorMode cursorMode = CursorMode.Auto;
+    [SerializeField] Vector2 hotSpot = Vector2.zero;
+
     MeshRenderer rendererVeil;
     Collider colliderVeil;
 
@@ -52,6 +58,10 @@ public class Veil : MonoBehaviour
         {
             return;
         }
+        if (GameManager.Instance.CheckScoutingPhase())
+        {
+            Cursor.SetCursor(cursoreScouting, hotSpot, cursorMode);
+        }
         rendererVeil.material = materialMouseEnter;
     }
     private void OnMouseExit()
@@ -60,6 +70,8 @@ public class Veil : MonoBehaviour
         {
             return;
         }
+
+        Cursor.SetCursor(null, hotSpot, cursorMode);
         rendererVeil.material = materialMain;
     }
 

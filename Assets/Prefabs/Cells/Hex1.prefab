@@ -51,6 +51,9 @@ MonoBehaviour:
   smokeFX: {fileID: 704053875829661865, guid: 7ec8967b8787d7143bbd18bba07a60a9, type: 3}
   smokeTime: 1
   openSound: {fileID: 8300000, guid: 326f27bb4cb38484f8e693a422320865, type: 3}
+  cursoreScouting: {fileID: 2800000, guid: 01b741f16dda06c4fbe68d6251587847, type: 3}
+  cursorMode: 0
+  hotSpot: {x: 0, y: 0}
 --- !u!33 &7620559183777284326
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Player playerOne;
     [SerializeField] GameObject playerOnePanel;
     [SerializeField] GameObject skillPanelPlayerOne;
+    [SerializeField] Text buildingPlayerOne;
     [SerializeField] Text scoutingPlayerOne;
     [SerializeField] Text bulletPlayerOne;
     [SerializeField] Text hpInfoPlayerOne;
@@ -48,6 +49,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Player playerTwo;
     [SerializeField] GameObject playerTwoPanel;
     [SerializeField] GameObject skillPanelPlayerTwo;
+    [SerializeField] Text buildingPLayerTwo;
     [SerializeField] Text scoutingPlayerTwo;
     [SerializeField] Text bulletPlayerTwo;
     [SerializeField] Text hpInfoPlayerTwo;
@@ -59,14 +61,18 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         StartHealth();
+        playerOne.onBuildingPoint += ShowBuildPlayerOne;
         playerOne.onScoutingPoint += ShowScoutingPlayerOne;
         playerOne.onBulletChanged += ShowBulletPLayerOne;
         playerOne.onCastleChanged += SliderPlayerOne;
 
+        playerTwo.onBuildingPoint += ShowBuildPlayerTwo;
         playerTwo.onScoutingPoint += ShowScoutingPlayerTwo;
         playerTwo.onBulletChanged += ShowBulletPlayerTwo;
         playerTwo.onCastleChanged += SliderPlayerTwo;
 
+        ShowBuildPlayerOne();
+        ShowBuildPlayerTwo();
         ShowBulletPLayerOne();
         ShowBulletPlayerTwo();
     }
@@ -112,6 +118,14 @@ public class UIManager : MonoBehaviour
     }
 
 
+    private void ShowBuildPlayerOne()
+    {
+        buildingPlayerOne.text = $"{playerOne.BuildingPoints}";
+    }
+    private void ShowBuildPlayerTwo()
+    {
+        buildingPLayerTwo.text = $"{playerTwo.BuildingPoints}";
+    }
     private void ShowScoutingPlayerOne()
     {
         scoutingPlayerOne.text = $"{playerOne.ScoutingPoints}";

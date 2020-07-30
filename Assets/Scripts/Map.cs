@@ -11,21 +11,21 @@ public class Map : MonoBehaviour
     private int randomCell;
 
     
-    Collider collider;
+    Collider colliderMap;
 
 
     private void Start()
     {
-        collider = GetComponent<Collider>();
+        colliderMap = GetComponent<Collider>();
     }
 
     public void InactiveCollider()
     {
-        collider.enabled = false;
+        colliderMap.enabled = false;
     }
     public void ActiveCollider()
     {
-        collider.enabled = true;
+        colliderMap.enabled = true;
     }
     private void OnMouseDown()
     {

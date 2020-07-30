@@ -72,8 +72,8 @@ public class GameManager : MonoBehaviour
     [Header("Winner")]
     [SerializeField] GameObject winnerPanel;
     [SerializeField] Text winnerText;
-
-
+    [SerializeField] AudioClip winClip;
+    [SerializeField] AudioClip nextPhaseClip;
 
 
     private List<GameObject> castlesPlayerOne = new List<GameObject>();
@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
     private bool isClickNextPhase = false;
     private bool isClickNextPlayer = false;
     private bool isClickSkill = false;
+    private bool shot = false;
     private bool winner = false;
 
     private int randomCellPlayerOne;
@@ -110,6 +111,21 @@ public class GameManager : MonoBehaviour
         FIRE,
         SKILL
     }
+
+    public bool PlayerOneActive
+    {
+        get
+        {
+            return playerOneActive;
+        }
+    }
+    public bool PlayerTwoActive
+    {
+        get
+        {
+            return playerTwoActive;
+        }
+    }
     
 
     // Start is called before the first frame update
@@ -117,7 +133,6 @@ public class GameManager : MonoBehaviour
     {
         cells = FindObjectsOfType<Cell>();
         veil = FindObjectsOfType<Veil>();
-        //GeneratePosition();
 
         invisiblePosition = positionPlayers.transform.position;
 
@@ -171,14 +186,14 @@ public class GameManager : MonoBehaviour
     {
         if (activePhase == PlayerPhases.BUILD)
         {
-            if (playerOneActive)
+            if (playerOneActive && (playerOne.BuildingPoints >= pointsBuilding))
             {
                 GameObject newObject = Instantiate(castlePlayerOne, target - new Vector3(0, playerPosition,0), Quaternion.identity);
                 castlesPlayerOne.Add(newObject);
                 playerOne.ZeroBuildingPoints();
                 playerOne.AddCastle();
             }
-            else if (playerTwoActive)
+            else if (playerTwoActive && (playerTwo.BuildingPoints >= pointsBuilding))
             {
                 GameObject newObject = Instantiate(castlePlayerTwo, target - new Vector3(0, playerPosition, 0), Quaternion.identity);
                 castlesPlayerTwo.Add(newObject);
@@ -219,6 +234,54 @@ public class GameManager : MonoBehaviour
     {
         if (activePhase == PlayerPhases.BUILD)
         {
+            if (playerOneActive)
+            {
+                if(playerOne.BuildingPoints >= pointsBuilding)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if (playerTwoActive)
+            {
+                if (playerTwo.BuildingPoints >= pointsBuilding)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool CheckFirePhase()
+    {
+        if (activePhase == PlayerPhases.FIRE)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool CheckScoutingPhase()
+    {
+        if (activePhase == PlayerPhases.SCOUTING)
+        {
             return true;
         }
         else
@@ -228,25 +291,33 @@ public class GameManager : MonoBehaviour
     }
     public bool CheckBulletPlayers()
     {
-
-        if (playerOneActive)
+        if (activePhase == PlayerPhases.FIRE)
         {
-            if (playerOne.Bullets > 0)
+            if (playerOneActive)
             {
-                playerOne.Shot();
-                return true;
+                if (playerOne.Bullets > 0 && shot)
+                {
+                    playerOne.Shot();
+                    shot = false;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            else if (playerTwoActive)
             {
-                return false;
-            }
-        }
-        else if (playerTwoActive)
-        {
-            if (playerTwo.Bullets > 0)
-            {
-                playerTwo.Shot();
-                return true;
+                if (playerTwo.Bullets > 0 && shot)
+                {
+                    playerTwo.Shot();
+                    shot = false;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
@@ -257,33 +328,7 @@ public class GameManager : MonoBehaviour
         {
             return false;
         }
-    }
-    private void GeneratePosition()
-    {
-        if (playerOne != null && playerTwo != null)
-        {
-            randomCellPlayerOne = Random.Range(0, cellsPlayerOne.Length);
-            randomCellPlayerTwo = Random.Range(0, cellsPlayerTwo.Length);
-            if (randomCellPlayerOne == randomCellPlayerTwo)
-            {
-                while (randomCellPlayerTwo != randomCellPlayerOne)
-                {
-                    randomCellPlayerTwo = Random.Range(0, cellsPlayerTwo.Length);
-                }
-            }
-            else
-            {
-
-                positionPlayerOne = generaMapCells[randomCellPlayerOne].transform.position;
-                positionPlayerTwo = generaMapCells[randomCellPlayerTwo].transform.position;
-
-                newPositionOne = positionPlayerOne - new Vector3(0, playerPosition, 0);
-                newPositionTwo = positionPlayerTwo - new Vector3(0, playerPosition, 0);
-
-                //playerOne.transform.position = newPositionOne;
-                //playerTwo.transform.position = newPositionTwo;    
-            }
-        }
+        
     }
 
 
@@ -335,7 +380,9 @@ public class GameManager : MonoBehaviour
     private void BuildingPhase()
     {
         mapPlayerOne.SetActive(false);
-        mapPlayerTwo.SetActive(false);   
+        mapPlayerTwo.SetActive(false);
+
+        ActiveGeneralMap();
 
         if (playerOneActive)
         {
@@ -436,19 +483,25 @@ public class GameManager : MonoBehaviour
         switch (activePhase)
         {
             case PlayerPhases.BUILD:
+                //AudioManager.Instance.PlaySound(nextPhaseClip);
                 activePhaseText.text = $"Выберите место для строительства замка";
                 BuildingPhase();
                 break;
             case PlayerPhases.SCOUTING:
-                activePhaseText.text = $"Выберите область для разведки!";
+                //AudioManager.Instance.PlaySound(nextPhaseClip);
+                activePhaseText.text = $"Выберите область исследования!";
                 ScoutingPhase();
                 break;
             case PlayerPhases.FIRE:
+                //AudioManager.Instance.PlaySound(nextPhaseClip);
                 activePhaseText.text = $"Выберите область для обстрела!";
+                shot = true;
                 ShellingPhase();
                 break;
             case PlayerPhases.SKILL:
+                //AudioManager.Instance.PlaySound(nextPhaseClip);
                 activePhaseText.text = $"Что вы хотите улучшить?";
+                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                 SkillPhase();
                 buttonPhase.gameObject.SetActive(false);
                 break;
@@ -470,7 +523,6 @@ public class GameManager : MonoBehaviour
                 if (isClickNextPhase)
                 {
                     AfterScoutingPhase();
-                    //ChangePhase(PlayerPhases.FIRE);
                     isClickNextPhase = false;
                 }
                 break;
@@ -484,9 +536,36 @@ public class GameManager : MonoBehaviour
             case PlayerPhases.SKILL:
                 if (isClickNextPlayer)
                 {
-                    
+                    if (playerOneActive)
+                    {
+                        ActivePlayerTwo();
+                        if (playerTwo.BuildingPoints >= pointsBuilding)
+                        {
+                            ChangePhase(PlayerPhases.BUILD);
+                        }
+                        else
+                        {
+                            ChangePhase(PlayerPhases.SCOUTING);
+                        }
+                        buttonPhase.gameObject.SetActive(true);
+                        changePlayerPanel.SetActive(false);
+                    }
+                    else if (playerTwoActive)
+                    {
+                        ActivePlayerOne();
+                        if (playerOne.BuildingPoints >= pointsBuilding)
+                        {
+                            ChangePhase(PlayerPhases.BUILD);
+                        }
+                        else
+                        {
+                            ChangePhase(PlayerPhases.SCOUTING);
+                        }
+                        buttonPhase.gameObject.SetActive(true);
+                        changePlayerPanel.SetActive(false);
+                    }
+
                     UIManager.Instance.HidePanelSkill();
-                    //ChangePhase(PlayerPhases.BUILD);
                     
                     isClickNextPlayer = false;
                 }
@@ -533,29 +612,33 @@ public class GameManager : MonoBehaviour
         }
 
         isClickNextPlayer = true;
-
-        StartCoroutine(NextPlayerCoroutine());
     }
-
 
     private void WinnerPlayerOne()
     {
         winner = true;
         winnerPanel.SetActive(true);
         winnerText.text = $"Игрок 1";
+        AudioManager.Instance.PlaySound(winClip);
     }
     private void WinnerPLayerTwo()
     {
         winner = true;
         winnerPanel.SetActive(true);
         winnerText.text = $"Игрок 2";
+        AudioManager.Instance.PlaySound(winClip);
+    }
+    
+    public void ChangePlayer()
+    {
+        changePlayerPanel.SetActive(true);
+        buttonPhase.gameObject.SetActive(false);
     }
 
     IEnumerator NextPlayerCoroutine()
     {
         if (playerOneActive)
         {
-            //yield return new WaitForSeconds(timeToMove);
             changePlayerPanel.SetActive(true);
             buttonPhase.gameObject.SetActive(false);
             yield return new WaitForSeconds(timeToMove);
@@ -574,7 +657,6 @@ public class GameManager : MonoBehaviour
         }
         else if (playerTwoActive)
         {
-            //yield return new WaitForSeconds(timeToMove);
             changePlayerPanel.SetActive(true);
             buttonPhase.gameObject.SetActive(false);
             yield return new WaitForSeconds(timeToMove);
